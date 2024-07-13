@@ -15,7 +15,7 @@ void pop(Stack **head);
 Stack *create_node(int value) 
 {
     Stack *new_node;
-    new_node = malloc(sizeof(Stack)); //aStackocating space for node
+    new_node = malloc(sizeof(Stack)); //allocating space for node
     if(new_node == NULL) 
     {
         return NULL;

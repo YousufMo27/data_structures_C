@@ -36,9 +36,6 @@ void delete_node(SLList * node_before_delete, SLList *node_to_delete) {
     node_before_delete->next = node_to_delete->next;
 }
 
-
-
-
 void append(SLList *head, SLList *node_to_append) {
     SLList *current_node = head;
     while (current_node->next != NULL) 

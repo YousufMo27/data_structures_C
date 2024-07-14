@@ -11,6 +11,7 @@ void push(Stack **head, int value);
 void print_list(Stack *print_node);
 void free_list(Stack *head);
 void pop(Stack **head);
+int isEmpty(Stack *head);
 
 Stack *create_node(int value) 
 {
@@ -55,6 +56,18 @@ void print_list(Stack *print_node)
     printf("\n");
 }
 
+int isEmpty(Stack *head) {
+    Stack *tmp = head;
+    int number_of_elements = 0;
+    if (head == NULL) {
+        return 0;
+    }
+    while(tmp != NULL) {
+        number_of_elements++;
+        tmp = tmp->next;
+    }
+    return number_of_elements;
+}
 
 void free_list(Stack *head) 
 {
@@ -66,5 +79,4 @@ void free_list(Stack *head)
         free(temp_node);
     }
 }
-
 

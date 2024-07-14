@@ -14,12 +14,10 @@ void free_list(SLList *head);
 void print_list(SLList *printNode);
 
 
-
 SLList *create_node(int value) {
     SLList *new_node;
     new_node = malloc(sizeof(SLList)); //allocating space for node
-    if(new_node == NULL) 
-    {
+    if(new_node == NULL) {
         return NULL;
     }
     new_node->value = value;
@@ -28,6 +26,9 @@ SLList *create_node(int value) {
 }
 
 void insert_node(SLList * node_before_insert, SLList * node_to_insert) {
+    if (node_before_insert == NULL) {
+        return;
+    }
     node_to_insert->next = node_before_insert->next;
     node_before_insert->next = node_to_insert;
 }
@@ -37,9 +38,11 @@ void delete_node(SLList * node_before_delete, SLList *node_to_delete) {
 }
 
 void append(SLList *head, SLList *node_to_append) {
+    if(!head && !node_to_append) {
+        return;
+    }
     SLList *current_node = head;
-    while (current_node->next != NULL) 
-    {
+    while (current_node->next != NULL) {
         current_node = current_node->next;
     }
     current_node->next = node_to_append;
@@ -49,8 +52,7 @@ void append(SLList *head, SLList *node_to_append) {
 
 void free_list(SLList * head) {
     SLList *tmp;
-    while (head)
-    {
+    while (head) {
         tmp = head;
         head = head->next;
         free(tmp);
@@ -64,5 +66,6 @@ void print_list(SLList * head) {
         printf("%d - ",tmp->value);
         tmp = tmp->next;
     }
-    printf("\n");
+    printf("NULL\n");
 }
+

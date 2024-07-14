@@ -9,7 +9,7 @@ typedef struct Node {
 SLList *create_node(int value);
 void insert_node(SLList *preNode, SLList *insert_node);
 void delete_node(SLList *preNode, SLList *delete_node);
-void append(SLList *append, SLList *insert_node);
+void append(SLList **head, SLList *insert_node);
 void free_list(SLList *head);
 void print_list(SLList *printNode);
 
@@ -37,11 +37,14 @@ void delete_node(SLList * node_before_delete, SLList *node_to_delete) {
     node_before_delete->next = node_to_delete->next;
 }
 
-void append(SLList *head, SLList *node_to_append) {
-    if(!head && !node_to_append) {
+void append(SLList **head, SLList *node_to_append) {
+    if(!(*head) && !node_to_append) {
         return;
     }
-    SLList *current_node = head;
+    if ((*head) == NULL) {
+        (*head) = node_to_append;
+    }
+    SLList *current_node = *head;
     while (current_node->next != NULL) {
         current_node = current_node->next;
     }
@@ -61,11 +64,9 @@ void free_list(SLList * head) {
 
 void print_list(SLList * head) {
     SLList *tmp = head;
-    while (tmp != NULL) 
-    {
+    while (tmp != NULL) {
         printf("%d - ",tmp->value);
         tmp = tmp->next;
     }
     printf("NULL\n");
 }
-

@@ -53,9 +53,7 @@ HashTable * new_entry(int key,char *value) {
 
 void insert(char *value, int key) {
     if(table[key] != NULL) {
-        printf("Not Empty\n");
         HashTable *temp = table[key];
-        printf("temp = %s\n",temp->value);
         // iterate to end of list then append
         while (temp->next != NULL) {
             temp = temp->next;
@@ -105,4 +103,19 @@ void print_table(HashTable *table) {
         printf("key = %d, value = %s\n",tmp->key,tmp->value);
         tmp = tmp->next;
     }
+}
+
+void lookup(char *value) {
+    int key = hash(value);
+    HashTable *tmp = table[key];
+    int iter = 0;
+    while(tmp != NULL) {
+        if(strcmp(tmp->value,value) == 0) {
+            printf("%s found on table index - %d at position %d\n",value,key,iter);
+            return;
+        }
+        iter++;
+        tmp = tmp->next;
+    }
+    printf("Value not found.../n");
 }

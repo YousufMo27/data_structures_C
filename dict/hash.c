@@ -1,5 +1,4 @@
 // Compiling: gcc -std=gnu99 -Wall hash.c
-
 #include <stdio.h>
 #define _POSIX_C_SOURCE 200809L
 #include <stdlib.h>
@@ -73,11 +72,15 @@ void delete(char *value, int key) {
         printf("Invalid Key\n");
     }
     if(table[key]->next == NULL) {
+        free(table[key]);
+        free(table[key]->value);
         table[key] = NULL; 
         return;
     }
     if(table[key]->next != NULL && strcmp(value,table[key]->value) == 0) {
         table[key] = table[key]->next;
+        free(tmp->value);
+        free(tmp);
         return;
     }
     
@@ -86,6 +89,8 @@ void delete(char *value, int key) {
         tmp = tmp->next;
         if(strcmp(tmp->value,value) == 0) {
                 prev->next = tmp->next;
+                free(tmp->value);
+                free(tmp);
                 tmp = NULL;
                 return;
         }

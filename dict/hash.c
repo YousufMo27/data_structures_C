@@ -15,12 +15,12 @@ typedef struct HashMap {
 
 HashTable *table[MAX_SIZE];
 
-
 void init_table();
 int hash(char *);
 void insert(char *, int);
 HashTable * new_entry(int,char *);
 void lookup(char *);
+void delete(char *value, int key);
 
 
 void init_table() {
@@ -28,7 +28,7 @@ void init_table() {
         table[i] = NULL;
     }
 }
-
+// simple hashing algorithm
 int hash(char *str) {
     int key = 0;
     for (int i = 0; i < strlen(str); i++) {
@@ -43,7 +43,9 @@ HashTable * new_entry(int key,char *value) {
     if(entry == NULL) {
         return NULL;
     }
+    // set the values
     entry->key = key;
+    // strdup allows for cleaner code, same as mallocing then strcpy
     entry->value = strdup(value);
     entry->next = NULL;
     return entry;
@@ -54,6 +56,7 @@ void insert(char *value, int key) {
         printf("Not Empty\n");
         HashTable *temp = table[key];
         printf("temp = %s\n",temp->value);
+        // iterate to end of list then append
         while (temp->next != NULL) {
             temp = temp->next;
         }
@@ -63,8 +66,41 @@ void insert(char *value, int key) {
     table[key] = new_entry(key,value);
 }
 
+void delete(char *value, int key) {
+    // two pointers following from head previous and tmp (current)
+    HashTable *tmp = table[key];
+    HashTable *prev = table[key];
+    // if key does not match value
+    if(hash(value) != key) {
+        printf("Invalid Key\n");
+    }
+    if(table[key]->next == NULL) {
+        table[key] = NULL; 
+        return;
+    }
+    if(table[key]->next != NULL && strcmp(value,table[key]->value) == 0) {
+        table[key] = table[key]->next;
+        return;
+    }
+    
+    while (tmp != NULL)
+    {
+        tmp = tmp->next;
+        if(strcmp(tmp->value,value) == 0) {
+                prev->next = tmp->next;
+                tmp = NULL;
+                return;
+        }
+        prev = prev->next;
+    }
+
+}
+
 void print_table(HashTable *table) {
     HashTable *tmp = table;
+    if(tmp == NULL) {
+        printf("Empty\n");
+    }
     while(tmp != NULL) {
         printf("key = %d, value = %s\n",tmp->key,tmp->value);
         tmp = tmp->next;
